@@ -1,0 +1,5 @@
+.DS_Store
+.vscode/
+pkg/
+bin/
+docker/db/data

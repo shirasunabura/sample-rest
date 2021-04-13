@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+    db:
+        build:
+            context: "."
+            dockerfile: ./db/Dockerfile
+        container_name: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: test
+            MYSQL_USER: docker
+            MYSQL_PASSWORD: docker
+            TZ: 'Asia/Tokyo'
+        volumes:
+            - ./db/data:/var/lib/mysql
+        ports:
+            - 3306:3306
+        networks:
+            - sample_net
+
+    api:
+        build:
+            context: "."
+            dockerfile: ./local/Dockerfile
+        container_name: sample-rest-api
+        volumes:
+            - "../app:/go/src"
+        ports:
+            - "8080:8080"
+        tty: true
+        networks:
+            - sample_net
+
+networks:
+  sample_net:
+    driver: bridge
